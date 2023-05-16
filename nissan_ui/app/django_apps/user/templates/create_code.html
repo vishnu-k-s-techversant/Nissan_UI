@@ -1,0 +1,69 @@
+{%extends 'user_dashboard_base.html'%}
+{% load static %}
+{% load widget_tweaks %}
+
+{%block title%}Create Code{%endblock%}
+{%block style%}
+
+{%endblock%}
+{%block body%}
+<div class="main">
+	{% include "top_navbar_user.html" %}
+	<main class="content">
+		<div class="container-fluid p-0">
+			<h1 class="h3 mb-3">Create Code</h1>
+			<div class="row">
+				<div class="col-md-12 col-xl-12">
+					<div class="tab-content"> 
+						<div class="tab-pane fade show active " id="master-table" role="tabpanel">
+							<div class="card ">
+								<div class="card-header">
+									<h3 class="card-title mb-0"></h3>
+								</div>
+								<div class="card-body table-responsive">
+									<form autocomplete="off" action="." method="POST" id="create-code-form"
+									name="create-code">
+									{%csrf_token%}
+									<div class="mb-3">
+										<label class="form-label" for="forwarder_short_code">Forwarder</label>
+										<select class="form-control" id="forwarder_id" name="forwarder_name">
+											{% for forwarder in forwarders %}
+												<option value="{{ forwarder.id }}">{{ forwarder.forwarder_short_code }}
+												</option>
+											{%endfor%}
+										</select>
+									</div>
+									{% for field in form.visible_fields %}
+									<div class="mb-3">
+										<label for="{{ field.id_for_label }}">{{ field.label }}</label>
+										{%if field.label == 'Is enabled'%}
+										{{ field }}
+										{%else%}
+										{{ field|add_class:'form-control' }}
+										{%endif%}
+
+										{% for error in field.errors %}
+											<span class="help-block" style="color:red">{{ error }}</span>
+										{% endfor %}
+										
+									</div>
+									{% endfor %}
+									
+									<button type="submit" id="forwarder-submit" class="btn btn-primary">Save
+										changes</button>
+									<button type="reset" class="btn btn-danger">Clear</button>
+									</form>				
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	{% include "footer_user.html" %}
+</div>
+</div>
+
+{%endblock%}
